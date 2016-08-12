@@ -1,0 +1,17 @@
+{
+  "name": "RedCard-Fuse",
+  "version": "0.0.1",
+  "description": "A Fable-Fuse project",
+  "author": "awseward",
+  "license": "Apache-2.0",
+  "homepage": "",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "devDependencies": {
+    "fable-core": "0.1.5",
+    "fable-fuse": "0.0.1",
+    "fable-import-fetch": "^0.0.2"
+  }
+}
