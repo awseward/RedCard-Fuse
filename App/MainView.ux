@@ -1,14 +1,26 @@
 <App Background="#eee">
-  <DockPanel>
-    <StatusBarBackground Dock="Top" />
-    <BottomBarBackground Dock="Bottom" />
+  <ClientPanel>
+    <JavaScript File="js/RedCard-Fuse.js" />
     <ScrollView>
-      <Grid ColumnCount="2">
-        <JavaScript File="js/RedCard-Fuse.js" />
+      <StackPanel ItemSpacing="10">
         <Each Items="{players}">
-          <Text Value="{name}" />
+          <StackPanel Padding="5">
+            <Text Value="{name}" FontSize="30" />
+            <Text Value="{team}" FontSize="20" />
+
+            <Grid ColumnCount="2" Margin="0,10">
+              <Text Value="Position" />
+              <Text Value="{position}" />
+
+              <Text Value="Red Cards" Background="Red" Color="White"/>
+              <Text Value="{redCards}" Background="Red" Color="White"/>
+
+              <Text Value="Yellow Cards" Background="Yellow"/>
+              <Text Value="{yellowCards}" Background="Yellow"/>
+            </Grid>
+          </StackPanel>
         </Each>
-      </Grid>
+      </StackPanel>
     </ScrollView>
-  </DockPanel>
+  </ClientPanel>
 </App>
