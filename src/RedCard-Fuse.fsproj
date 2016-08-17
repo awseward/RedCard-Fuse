@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="../node_modules/fable-import-fetch/Fable.Import.Fetch.fs" />
+    <Compile Include="../node_modules/fable-import-fetch/Fable.Helpers.Fetch.fs" />
     <Compile Include="../node_modules/fable-fuse/Observable.fs" />
     <Compile Include="../node_modules/fable-fuse/PromiseExt.fs" />
     <Compile Include="../node_modules/fable-fuse/Apis.fs" />
