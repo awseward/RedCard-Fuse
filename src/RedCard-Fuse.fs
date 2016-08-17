@@ -2,13 +2,27 @@ namespace App
 
 open Fable.Core
 open Fuse
-open Fable.Import
 open Fable.Import.Fetch
+open Fable.Helpers.Fetch
 
 module RedCardFuse =
-    let data = Observable.create()
+  type Player =
+    {
+      id: int
+      name: string
+      position: string
+      yellowCards: int
+      redCards: int
+      team: string
+      league: string
+      country: string
+    }
 
-    promise {
-        let! req = GlobalFetch.fetch (Url "http://az664292.vo.msecnd.net/files/ZjPdBhWNdPRMI4qK-colors.json")
-        let! json = req.json ()
-        do (data.value <- json) } |> ignore
+  let players = Observable.create()
+
+  promise {
+    let! req = GlobalFetch.fetchAs<Player[]> (Url "http://45.55.167.132/api/players")
+    let! json = req.json ()
+    do (players.value <- json) } |> ignore
+
+  printfn "%A" players.value
