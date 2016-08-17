@@ -55,6 +55,10 @@ module RedCardFuse =
 
   (* Data stuff *)
 
+  let printAndReturn thing =
+    printfn "%A" thing
+    thing
+
   let fetchPlayers url callback =
     async {
       let! players = fetchAs<Player[]>(url, [])
@@ -65,12 +69,7 @@ module RedCardFuse =
       |> Seq.take 100
 
       |> Seq.map fixPosition
-      |> Seq.map
-          (
-            fun p ->
-              printfn "%A" p
-              p
-          )
+      |> Seq.map printAndReturn
       |> Seq.iter callback
     }
 
