@@ -12,11 +12,11 @@
               <Text Value="Position" />
               <Text Value="{position}" />
 
-              <Text Value="Red Cards" Background="Red" Color="White"/>
-              <Text Value="{redCards}" Background="Red" Color="White"/>
+              <Text Value="Red Cards" Background="#FF4136" Color="White"/>
+              <Text Value="{redCards}" Background="#FF4136" Color="White"/>
 
-              <Text Value="Yellow Cards" Background="Yellow"/>
-              <Text Value="{yellowCards}" Background="Yellow"/>
+              <Text Value="Yellow Cards" Background="#FFDC00"/>
+              <Text Value="{yellowCards}" Background="#FFDC00"/>
             </Grid>
           </StackPanel>
         </Each>
