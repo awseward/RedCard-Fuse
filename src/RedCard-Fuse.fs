@@ -35,18 +35,30 @@ module RedCardFuse =
     }
 
   (* Data stuff *)
-  let playersJson = """[{"id":1,"name":"Person McPersonFace","position":"F","yellowCards":10,"redCards":2,"team":"UCSB","league":"NCAA","country":"USA"}]"""
-  let parsedPlayers = ofJson<Player[]>(playersJson)
 
-  let fetchedPlayers = [] // TODO
+  let fetchPlayers url callback =
+    async {
+      let! players = fetchAs<Player[]>(url, [])
 
-  (* Set up Observables the App actually will look at *)
+      players
+      // NOTE: Currently taking only 100 because otherwise the UI chugs as it
+      // builds ~5k UI elements
+      |> Seq.take 100
+
+      |> Seq.map fixPosition
+      |> Seq.map
+          (
+            fun p ->
+              printfn "%A" p
+              p
+          )
+      |> Seq.iter callback
+    }
+
+
+  (* Set up bound observable *)
+
   let players = Observable.create()
 
-  parsedPlayers
-  |> Seq.map fixPosition
-  |> Seq.iter (fun p -> players.add p)
-
-  fetchedPlayers
-  |> Seq.map fixPosition
-  |> Seq.iter (fun p -> players.add p)
+  fetchPlayers "http://45.55.167.132/api/players" (fun data -> players.add data)
+  |> Async.Start
