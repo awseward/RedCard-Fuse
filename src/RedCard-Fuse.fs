@@ -21,6 +21,25 @@ module RedCardFuse =
       country: string
     }
 
+  type Team =
+    {
+      name: string
+      players: Player seq
+    }
+
+  type League =
+    {
+      name: string
+      teams: Team seq
+    }
+
+
+  type Country =
+    {
+      name: string
+      leagues: League seq
+    }
+
   let parsePosition abbrev =
     match abbrev with
     | "F" -> "Forward"
