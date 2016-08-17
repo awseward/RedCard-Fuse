@@ -26,9 +26,18 @@ module RedCardFuse =
     | "G" -> "Goaltender"
     | _   -> "Bench"
 
-  (* let playerJson = """[{"id":1,"name":"Bro Duderson","position":"F","yellowCards":10,"redCards":2,"team":"UCSB","league":"NCAA","country":"USA"}]""" *)
+  let fixPosition player =
+    { player with
+        position = (parsePosition player.position)
+    }
 
-  (* let parsedPlayer = ofJson<Player>(playerJson) *)
+  let playersJson = """[{"id":1,"name":"Bro Duderson","position":"F","yellowCards":10,"redCards":2,"team":"UCSB","league":"NCAA","country":"USA"}]"""
+
+  let parsedPlayers =
+    ofJson<Player[]>(playersJson)
+    |> Seq.map fixPosition
+
+  printfn "%A" parsedPlayers
 
   let DefaultPlayer =
     {

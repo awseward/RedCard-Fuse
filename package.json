@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "fable-core": "^0.5.4",
-    "fable-fuse": "0.0.2",
+    "fable-fuse": "awseward/fable-fuse#get-latest-fusetools-working",
     "fable-import-fetch": "^0.2.2"
   }
 }
