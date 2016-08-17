@@ -1,6 +1,10 @@
 <App Background="#eee">
   <ClientPanel>
     <JavaScript File="js/RedCard-Fuse.js" />
+    <StackPanel>
+      <Button Text="Load Players" Clicked="{loadPlayers}" />
+      <Button Text="Clear Players" Clicked="{clearPlayers}" />
+    </StackPanel>
     <ScrollView>
       <StackPanel ItemSpacing="10">
         <Each Items="{players}">

@@ -78,5 +78,7 @@ module RedCardFuse =
 
   let players = Observable.create()
 
-  fetchPlayers "http://45.55.167.132/api/players" (fun data -> players.add data)
-  |> Async.Start
+  let clearPlayers () = players.clear()
+  let loadPlayers () =
+    fetchPlayers "http://45.55.167.132/api/players" (fun data -> players.add data)
+    |> Async.Start
