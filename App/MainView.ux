@@ -1,30 +1,34 @@
 <App Background="#eee">
   <ClientPanel>
     <JavaScript File="js/RedCard-Fuse.js" />
-    <StackPanel>
-      <Button Text="Load Players" Clicked="{loadPlayers}" />
-      <Button Text="Clear Players" Clicked="{clearPlayers}" />
-    </StackPanel>
-    <ScrollView>
-      <StackPanel ItemSpacing="10">
-        <Each Items="{players}">
-          <StackPanel Padding="5">
-            <Text Value="{name}" FontSize="30" />
-            <Text Value="{team}" FontSize="20" />
+    <DockPanel>
+      <WhileEmpty Items="{players}">
+        <Button Text="Load Players" Clicked="{loadPlayers}" />
+      </WhileEmpty>
+      <WhileCount Items="{players}" GreaterThan="0">
+        <Button Padding="10" Dock="Bottom" Text="Clear Players" Clicked="{clearPlayers}" />
+      </WhileCount>
+      <ScrollView>
+        <StackPanel ItemSpacing="10">
+          <Each Items="{players}">
+            <StackPanel Padding="5">
+              <Text Value="{name}" FontSize="30" />
+              <Text Value="{team}" FontSize="20" />
 
-            <Grid ColumnCount="2" Margin="0,10">
-              <Text Value="Position" />
-              <Text Value="{position}" />
+              <Grid ColumnCount="2" Margin="0,10">
+                <Text Value="Position" />
+                <Text Value="{position}" />
 
-              <Text Value="Red Cards" Background="#FF4136" Color="White"/>
-              <Text Value="{redCards}" Background="#FF4136" Color="White"/>
+                <Text Value="Red Cards" Background="#FF4136" Color="White"/>
+                <Text Value="{redCards}" Background="#FF4136" Color="White"/>
 
-              <Text Value="Yellow Cards" Background="#FFDC00"/>
-              <Text Value="{yellowCards}" Background="#FFDC00"/>
-            </Grid>
-          </StackPanel>
-        </Each>
-      </StackPanel>
-    </ScrollView>
+                <Text Value="Yellow Cards" Background="#FFDC00"/>
+                <Text Value="{yellowCards}" Background="#FFDC00"/>
+              </Grid>
+            </StackPanel>
+          </Each>
+        </StackPanel>
+      </ScrollView>
+    </DockPanel>
   </ClientPanel>
 </App>

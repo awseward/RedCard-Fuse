@@ -74,7 +74,7 @@ module RedCardFuse =
     }
 
 
-  (* Set up bound observable *)
+  (* Set up observables and functions for binding and whatnot *)
 
   let players = Observable.create()
 
