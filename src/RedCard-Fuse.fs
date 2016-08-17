@@ -1,10 +1,14 @@
 namespace App
 
 open Fable.Core
+open Fable.Core.JsInterop
 open Fuse
 open Fable.Import.Fetch
+open Fable.Helpers.Fetch
 
 module RedCardFuse =
+  (* Type stuff *)
+
   type Player =
     {
       id: int
@@ -25,30 +29,36 @@ module RedCardFuse =
     | "G" -> "Goaltender"
     | _   -> "Bench"
 
-  let DefaultPlayer =
-    {
-      id = 1
-      name = "Person McPersonface"
-      position = parsePosition "M"
-      yellowCards = 10
-      redCards = 2
-      team = "UCSB"
-      league = "NCAA"
-      country = "USA"
+  let fixPosition player =
+    { player with
+        position = (parsePosition player.position)
     }
+
+  (* Data stuff *)
+
+  let fetchPlayers url callback =
+    async {
+      let! players = fetchAs<Player[]>(url, [])
+
+      players
+      // NOTE: Currently taking only 100 because otherwise the UI chugs as it
+      // builds ~5k UI elements
+      |> Seq.take 100
+
+      |> Seq.map fixPosition
+      |> Seq.map
+          (
+            fun p ->
+              printfn "%A" p
+              p
+          )
+      |> Seq.iter callback
+    }
+
+
+  (* Set up bound observable *)
 
   let players = Observable.create()
 
-  players.add DefaultPlayer
-  players.add
-    { DefaultPlayer with
-        id = 2
-        name = "Jane Doe"
-        position = parsePosition "F"
-    }
-  players.add
-    { DefaultPlayer with
-        id = 2
-        name = "Donny Nullerson"
-        position = parsePosition "bad_data"
-    }
+  fetchPlayers "http://45.55.167.132/api/players" (fun data -> players.add data)
+  |> Async.Start
