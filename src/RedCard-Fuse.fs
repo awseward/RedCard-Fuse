@@ -62,23 +62,25 @@ module RedCardFuse =
     items
 
   (* Data stuff *)
-  let playersToTeams players =
+  let playersToTeams (players : Player seq) =
     players
     |> Seq.groupBy (fun p -> p.team)
+    |> Seq.sortBy (fun (name, _) -> name)
     |> Seq.map (fun (teamName, teamPlayers) ->
-         let givenPlayer = Seq.head teamPlayers
+         let firstPlayer = Seq.head teamPlayers
          {
            name = teamName
-           league = givenPlayer.league
-           country = givenPlayer.country
+           league = firstPlayer.league
+           country = firstPlayer.country
            players = teamPlayers
          }
        )
     |> printCount "teams"
 
-  let teamsToLeagues teams =
+  let teamsToLeagues (teams : Team seq) =
     teams
-    |> Seq.groupBy(fun t -> t.league)
+    |> Seq.groupBy (fun t -> t.league)
+    |> Seq.sortBy (fun (name, _) -> name)
     |> Seq.map (fun (leagueName, leagueTeams) ->
          {
            name = leagueName
@@ -88,9 +90,10 @@ module RedCardFuse =
        )
     |> printCount "leagues"
 
-  let leaguesToCountries leagues =
+  let leaguesToCountries (leagues : League seq) =
     leagues
-    |> Seq.groupBy(fun l -> l.country)
+    |> Seq.groupBy (fun l -> l.country)
+    |> Seq.sortBy (fun (name, _) -> name)
     |> Seq.map (fun (countryName, countryLeagues) ->
          {
            name = countryName
@@ -107,31 +110,22 @@ module RedCardFuse =
     async {
       let! players = fetchAs<Player[]>(url, [])
 
-      let countries =
-        players
-        |> playersToTeams
-        |> teamsToLeagues
-        |> leaguesToCountries
-
       players
-      |> List.ofSeq
-      |> List.sortBy (fun p -> p.redCards)
-      |> List.rev
-      // NOTE: Currently taking only 100 because otherwise the UI chugs as it
-      // builds ~5k UI elements
-      |> Seq.take 100
-      |> Seq.map fixPosition
+      |> playersToTeams
+      |> teamsToLeagues
+      |> leaguesToCountries
       |> Seq.iter callback
     }
 
 
   (* Set up observables and functions for binding and whatnot *)
 
-  let players = Observable.create()
+  let countries = Observable.create()
 
-  let clearPlayers () = players.clear()
-  let loadPlayers () =
-    fetchPlayers "http://45.55.167.132/api/players" (fun data -> players.add data)
+  let loadData () =
+    fetchPlayers "http://45.55.167.132/api/players" (fun data -> countries.add data)
     |> Async.Start
 
-  loadPlayers()
+  let clearData () = countries.clear()
+
+  loadData()
