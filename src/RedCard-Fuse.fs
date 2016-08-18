@@ -64,10 +64,12 @@ module RedCardFuse =
       let! players = fetchAs<Player[]>(url, [])
 
       players
+      |> List.ofSeq
+      |> List.sortBy (fun p -> p.redCards)
+      |> List.rev
       // NOTE: Currently taking only 100 because otherwise the UI chugs as it
       // builds ~5k UI elements
       |> Seq.take 100
-
       |> Seq.map fixPosition
       |> Seq.map printAndReturn
       |> Seq.iter callback
@@ -82,3 +84,5 @@ module RedCardFuse =
   let loadPlayers () =
     fetchPlayers "http://45.55.167.132/api/players" (fun data -> players.add data)
     |> Async.Start
+
+  loadPlayers()

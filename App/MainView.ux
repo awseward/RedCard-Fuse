@@ -24,6 +24,12 @@
 
                 <Text Value="Yellow Cards" Background="#FFDC00"/>
                 <Text Value="{yellowCards}" Background="#FFDC00"/>
+
+                <Text Value="League" />
+                <Text Value="{league}" />
+
+                <Text Value="Country" />
+                <Text Value="{country}" />
               </Grid>
             </StackPanel>
           </Each>
